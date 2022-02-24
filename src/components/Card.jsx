@@ -15,7 +15,12 @@ class Card extends React.Component {
     } = this.props;
     return (
       <div className="card">
-        <img data-testid="image-card" src={ cardImage } alt={ cardName } />
+        <img
+          className="imagemCard"
+          data-testid="image-card"
+          src={ cardImage }
+          alt={ cardName }
+        />
         <p data-testid="name-card">
           {`Nome: ${cardName}`}
         </p>
@@ -41,25 +46,25 @@ class Card extends React.Component {
 }
 
 Card.propTypes = {
-  cardName: PropTypes.string,
-  cardDescription: PropTypes.string,
-  cardAttr1: PropTypes.string,
-  cardAttr2: PropTypes.string,
-  cardAttr3: PropTypes.string,
-  cardImage: PropTypes.string,
-  cardRare: PropTypes.string,
-  cardTrunfo: PropTypes.bool,
+  cardName: PropTypes.string.isRequired,
+  cardDescription: PropTypes.string.isRequired,
+  cardAttr1: PropTypes.string.isRequired,
+  cardAttr2: PropTypes.string.isRequired,
+  cardAttr3: PropTypes.string.isRequired,
+  cardImage: PropTypes.string.isRequired,
+  cardRare: PropTypes.string.isRequired,
+  cardTrunfo: PropTypes.bool.isRequired,
 };
 
-Card.defaultProps = {
-  cardName: '',
-  cardDescription: '',
-  cardAttr1: '',
-  cardAttr2: '',
-  cardAttr3: '',
-  cardImage: '',
-  cardRare: '',
-  cardTrunfo: false,
-};
+// Card.defaultProps = {
+//   cardName: '',
+//   cardDescription: '',
+//   cardAttr1: '',
+//   cardAttr2: '',
+//   cardAttr3: '',
+//   cardImage: '',
+//   cardRare: '',
+//   cardTrunfo: false,
+// };
 
 export default Card;

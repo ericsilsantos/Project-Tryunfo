@@ -25,3 +25,7 @@ code {
   width: 50%;
   background-color: greenyellow;
 }
+.imagemCard{
+  width: 60%;
+  align-items: center;
+}
