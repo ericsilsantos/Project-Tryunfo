@@ -22,6 +22,7 @@ class App extends React.Component {
     this.handleBottonDisabled = this.handleBottonDisabled.bind(this);
     this.handleBottonSave = this.handleBottonSave.bind(this);
     this.handleBottonDelete = this.handleBottonDelete.bind(this);
+    this.handleFilterName = this.handleFilterName.bind(this);
 
     this.state = {
       cardName: '',
@@ -35,6 +36,7 @@ class App extends React.Component {
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       allCards: [],
+      renderCards: [],
     };
   }
 
@@ -87,6 +89,7 @@ class App extends React.Component {
       cardTrunfo,
       // hasTrunfo,
       allCards,
+      renderCards,
     } = this.state;
 
     const card = {
@@ -107,6 +110,7 @@ class App extends React.Component {
     this.setState(inicialState, () => {
       this.setState({
         allCards: [...allCards, card],
+        renderCards: [...renderCards, card],
       });
     });
   }
@@ -122,6 +126,16 @@ class App extends React.Component {
     });
   }
 
+  handleFilterName({ target }) {
+    const { value } = target;
+    const { allCards } = this.state;
+    const cards = allCards.filter((card) => card.name.includes(value));
+    // console.log(value);
+    this.setState({
+      renderCards: cards,
+    });
+  }
+
   render() {
     const {
       cardName,
@@ -134,7 +148,8 @@ class App extends React.Component {
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
-      allCards,
+      // allCards,
+      renderCards,
     } = this.state;
     return (
       <div>
@@ -167,27 +182,37 @@ class App extends React.Component {
         </div>
         <div>
           <p>Lista de Cartas</p>
-          {allCards.map((card) => (
-            <div key={ card.name }>
-              <Card
-                cardName={ card.name }
-                cardDescription={ card.description }
-                cardAttr1={ card.attr1 }
-                cardAttr2={ card.attr2 }
-                cardAttr3={ card.attr3 }
-                cardImage={ card.image }
-                cardRare={ card.rare }
-                cardTrunfo={ card.trunfo }
-              />
-              <button
-                type="button"
-                data-testid="delete-button"
-                onClick={ () => this.handleBottonDelete(card) }
-              >
-                Excluir
-              </button>
-            </div>
-          ))}
+          <section>
+            <p>Filtro por nome</p>
+            <input
+              data-testid="name-filter"
+              type="text"
+              onChange={ this.handleFilterName }
+            />
+          </section>
+          <section>
+            {renderCards.map((card) => (
+              <div key={ card.name }>
+                <Card
+                  cardName={ card.name }
+                  cardDescription={ card.description }
+                  cardAttr1={ card.attr1 }
+                  cardAttr2={ card.attr2 }
+                  cardAttr3={ card.attr3 }
+                  cardImage={ card.image }
+                  cardRare={ card.rare }
+                  cardTrunfo={ card.trunfo }
+                />
+                <button
+                  type="button"
+                  data-testid="delete-button"
+                  onClick={ () => this.handleBottonDelete(card) }
+                >
+                  Excluir
+                </button>
+              </div>
+            ))}
+          </section>
         </div>
       </div>
     );
