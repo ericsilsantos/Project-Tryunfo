@@ -112,12 +112,12 @@ class App extends React.Component {
   }
 
   handleBottonDelete({ name, trunfo }) {
-    let nTrunfo = true;
+    // let nTrunfo = true;
     const { allCards } = this.state;
     const newAllCards = allCards.filter((card) => card.name !== name);
-    if (trunfo) nTrunfo = false;
+    // if (trunfo) nTrunfo = false;
     this.setState({
-      hasTrunfo: nTrunfo,
+      hasTrunfo: !trunfo,
       allCards: newAllCards,
     });
   }

@@ -22,7 +22,7 @@ class Card extends React.Component {
           alt={ cardName }
         />
         <p data-testid="name-card">
-          {`Nome: ${cardName}`}
+          {`${cardName}`}
         </p>
         <p data-testid="description-card">
           {`Descrição: ${cardDescription}`}
