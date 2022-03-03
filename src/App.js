@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import Filter from './components/Filter';
 
 const inicialState = {
   cardName: '',
@@ -23,6 +24,7 @@ class App extends React.Component {
     this.handleBottonSave = this.handleBottonSave.bind(this);
     this.handleBottonDelete = this.handleBottonDelete.bind(this);
     this.handleFilterName = this.handleFilterName.bind(this);
+    this.handleFilterRare = this.handleFilterRare.bind(this);
 
     this.state = {
       cardName: '',
@@ -36,7 +38,9 @@ class App extends React.Component {
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       allCards: [],
+      filterCards: [],
       renderCards: [],
+      filterRare: '',
     };
   }
 
@@ -87,7 +91,6 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
-      // hasTrunfo,
       allCards,
       renderCards,
     } = this.state;
@@ -116,22 +119,48 @@ class App extends React.Component {
   }
 
   handleBottonDelete({ name, trunfo }) {
-    // let nTrunfo = true;
-    const { allCards } = this.state;
-    const newAllCards = allCards.filter((card) => card.name !== name);
-    // if (trunfo) nTrunfo = false;
+    const { renderCards } = this.state;
+    const newAllCards = renderCards.filter((card) => card.name !== name);
     this.setState({
       hasTrunfo: !trunfo,
+      renderCards: newAllCards,
       allCards: newAllCards,
     });
   }
 
   handleFilterName({ target }) {
+    let cards;
     const { value } = target;
-    const { allCards } = this.state;
-    const cards = allCards.filter((card) => card.name.includes(value));
-    // console.log(value);
+    const { allCards, renderCards, filterRare } = this.state;
+    if (value === '') {
+      cards = allCards;
+    } else if (filterRare === '') {
+      cards = renderCards.filter((card) => card.name.includes(value));
+    } else {
+      cards = filterRare.filter((card) => card.name.includes(value));
+    }
+
     this.setState({
+      renderCards: cards,
+      filterCards: cards,
+    });
+  }
+
+  handleFilterRare({ target }) {
+    let cards;
+    let rare;
+    const { value } = target;
+    const { allCards, filterCards } = this.state;
+    if (value === '') {
+      rare = '';
+      cards = allCards;
+    } else {
+      rare = value;
+      cards = filterCards.filter((card) => card.rare === (value));
+    }
+
+    this.setState({
+      filterRare: rare,
       renderCards: cards,
     });
   }
@@ -148,7 +177,6 @@ class App extends React.Component {
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
-      // allCards,
       renderCards,
     } = this.state;
     return (
@@ -182,14 +210,10 @@ class App extends React.Component {
         </div>
         <div>
           <p>Lista de Cartas</p>
-          <section>
-            <p>Filtro por nome</p>
-            <input
-              data-testid="name-filter"
-              type="text"
-              onChange={ this.handleFilterName }
-            />
-          </section>
+          <Filter
+            handleFilterName={ this.handleFilterName }
+            handleFilterRare={ this.handleFilterRare }
+          />
           <section>
             {renderCards.map((card) => (
               <div key={ card.name }>
