@@ -62,7 +62,6 @@ class App extends React.Component {
       cardImage,
       cardRare,
     } = this.state;
-
     let desativado = false;
     const totalMaximo = 210;
     const min = 0;
@@ -74,7 +73,6 @@ class App extends React.Component {
     if (atrr1 < min || atrr2 < min || atrr3 < min) desativado = true;
     if ((atrr1 + atrr2 + atrr3) > totalMaximo) desativado = true;
     if (!cardName || !cardDescription || !cardRare || !cardImage) desativado = true;
-
     this.setState({
       isSaveButtonDisabled: desativado,
     });
@@ -94,7 +92,6 @@ class App extends React.Component {
       allCards,
       renderCards,
     } = this.state;
-
     const card = {
       name: cardName,
       description: cardDescription,
@@ -139,7 +136,6 @@ class App extends React.Component {
     } else {
       cards = filterRare.filter((card) => card.name.includes(value));
     }
-
     this.setState({
       renderCards: cards,
       filterCards: cards,
@@ -158,10 +154,17 @@ class App extends React.Component {
       rare = value;
       cards = filterCards.filter((card) => card.rare === (value));
     }
-
     this.setState({
       filterRare: rare,
       renderCards: cards,
+    });
+  }
+
+  handleFilterTrunfo = () => {
+    const { allCards } = this.state;
+    const card = allCards.filter((crd) => crd.trunfo === true);
+    this.setState({
+      renderCards: card,
     });
   }
 
@@ -211,6 +214,7 @@ class App extends React.Component {
         <div>
           <p>Lista de Cartas</p>
           <Filter
+            handleFilterTrunfo={ this.handleFilterTrunfo }
             handleFilterName={ this.handleFilterName }
             handleFilterRare={ this.handleFilterRare }
           />

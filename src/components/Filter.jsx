@@ -12,16 +12,13 @@ class Filter extends React.Component {
   }
 
   handleDisableFilter({ target }) {
-    const { value } = target;
-    if (value) {
-      this.setState({
-        disabledFilter: true,
-      });
-    } else {
-      this.setState({
-        disabledFilter: false,
-      });
-    }
+    const { checked } = target;
+    let bool = false;
+    if (checked) bool = true;
+
+    this.setState({
+      disabledFilter: bool,
+    });
   }
 
   render() {
@@ -55,7 +52,7 @@ class Filter extends React.Component {
           <input
             id="super"
             type="checkbox"
-            onChange={ this.handleDisableFilter }
+            onClick={ this.handleDisableFilter }
           />
           Super Trunfo
         </label>
